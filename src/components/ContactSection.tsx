@@ -1,6 +1,8 @@
-import { contactContent } from '../utils/portfolio'
+import { contactContent } from "../utils/portfolio";
 
 function ContactSection() {
+  const whatsappHref = `https://wa.me/${contactContent.whatsappNumber.replace(/\D/g, "")}`;
+
   return (
     <section
       aria-labelledby="contact-title"
@@ -24,21 +26,24 @@ function ContactSection() {
         </div>
         <div className="flex flex-col justify-center rounded-xl border border-line bg-surface p-6 sm:p-8">
           <p className="font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">
-            Email
+            Resume
           </p>
           <a
+            aria-label={`${contactContent.resumeLink.label} (opens in a new tab)`}
             className="group mt-4 inline-flex min-h-14 items-center justify-between gap-4 rounded-lg bg-ink px-5 py-4 text-sm font-medium text-page transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
-            href={`mailto:${contactContent.email}`}
+            href={contactContent.resumeLink.href}
+            rel="noreferrer"
+            target="_blank"
           >
-            <span className="break-all">{contactContent.email}</span>
+            <span>{contactContent.resumeLink.label}</span>
             <svg
               aria-hidden="true"
-              className="size-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+              className="size-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               fill="none"
               viewBox="0 0 24 24"
             >
               <path
-                d="M5 12h14m-6-6 6 6-6 6"
+                d="M7 17 17 7M7 7h10v10"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -47,12 +52,48 @@ function ContactSection() {
             </svg>
           </a>
           <p className="mt-4 text-xs leading-5 text-ink-muted">
-            Opens your default email app.
+            A quick overview of my experience and skills.
           </p>
+          <div className="mt-6 border-t border-line pt-5">
+            <p className="text-xs leading-5 text-ink-muted">
+              Reach me directly
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1">
+              <a
+                className="inline-flex min-h-10 items-center text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                href={`mailto:${contactContent.email}`}
+              >
+                {contactContent.email}
+              </a>
+              <a
+                aria-label="Message me on WhatsApp (opens in a new tab)"
+                className="group inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-ink focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                href={whatsappHref}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>WhatsApp</span>
+                <svg
+                  aria-hidden="true"
+                  className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 17 17 7M7 7h10v10"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.7"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ContactSection
+export default ContactSection;
