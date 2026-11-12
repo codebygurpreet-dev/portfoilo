@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useRef,
   useState,
   type KeyboardEvent,
@@ -10,7 +11,94 @@ import ThemeToggle from "./ThemeToggle";
 
 function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const activeNavigationLabel = navigationLinks.find(
+    (link) => link.href.slice(1) === activeSection,
+  )?.label;
+
+  useEffect(() => {
+    const sectionIds = [
+      "home",
+      ...navigationLinks.map((link) => link.href.slice(1)),
+    ];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    const finalSectionId =
+      navigationLinks[navigationLinks.length - 1]?.href.slice(1);
+    const isAtPageEnd = () => {
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      return maxScroll > 0 && window.scrollY >= maxScroll - 2;
+    };
+    const isFooterVisible = () => {
+      const footerBounds = document
+        .querySelector("footer")
+        ?.getBoundingClientRect();
+
+      return Boolean(
+        footerBounds &&
+          footerBounds.top < window.innerHeight &&
+          footerBounds.bottom > 0,
+      );
+    };
+    const updateActiveForFinalArea = () => {
+      if (finalSectionId && (isAtPageEnd() || isFooterVisible())) {
+        setActiveSection(finalSectionId);
+      }
+    };
+
+    window.addEventListener("scroll", updateActiveForFinalArea, {
+      passive: true,
+    });
+    window.addEventListener("resize", updateActiveForFinalArea);
+
+    if (!("IntersectionObserver" in window) || sections.length === 0) {
+      updateActiveForFinalArea();
+      return () => {
+        window.removeEventListener("scroll", updateActiveForFinalArea);
+        window.removeEventListener("resize", updateActiveForFinalArea);
+      };
+    }
+
+    let observer: IntersectionObserver | undefined;
+    const updateObserver = () => {
+      observer?.disconnect();
+      const topInset = Math.round(window.innerHeight * 0.35);
+      const bottomInset = Math.round(window.innerHeight * 0.55);
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (finalSectionId && (isAtPageEnd() || isFooterVisible())) {
+            setActiveSection(finalSectionId);
+            return;
+          }
+
+          const currentSection = entries.find((entry) => entry.isIntersecting);
+          if (currentSection) setActiveSection(currentSection.target.id);
+        },
+        {
+          rootMargin: `-${topInset}px 0px -${bottomInset}px 0px`,
+          threshold: 0,
+        },
+      );
+
+      sections.forEach((section) => observer?.observe(section));
+    };
+
+    updateObserver();
+    updateActiveForFinalArea();
+    window.addEventListener("resize", updateObserver);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", updateObserver);
+      window.removeEventListener("scroll", updateActiveForFinalArea);
+      window.removeEventListener("resize", updateActiveForFinalArea);
+    };
+  }, []);
 
   function handleNavigationKeyDown(event: KeyboardEvent<HTMLElement>) {
     if (event.key === "Escape" && isMenuOpen) {
@@ -24,6 +112,7 @@ function SiteHeader() {
 
     event.preventDefault();
     window.history.replaceState(null, "", "/");
+    setActiveSection("home");
     window.scrollTo(0, 0);
   }
 
@@ -41,7 +130,10 @@ function SiteHeader() {
           Skip to main content
         </a>
         <a
-          className="text-sm font-bold tracking-tight text-ink"
+          aria-current={activeSection === "home" ? "location" : undefined}
+          className={`text-sm font-bold tracking-tight transition-colors ${
+            activeSection === "home" ? "text-accent" : "text-ink"
+          }`}
           href="/"
           aria-label={`${siteName}, home`}
           onClick={handleHomeNavigation}
@@ -50,16 +142,24 @@ function SiteHeader() {
         </a>
         <div className="order-2 ml-auto flex items-center gap-2 sm:order-3 sm:ml-0 sm:gap-3">
           <ThemeToggle />
-          <a
-            className="hidden rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-page transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-accent hover:text-page sm:inline-flex"
-            href="#contact"
-          >
-            Get in touch
-          </a>
+          {!isMenuOpen && activeNavigationLabel && (
+            <span
+              aria-hidden="true"
+              className="font-mono text-[10px] font-medium tracking-[0.1em] text-accent uppercase sm:hidden"
+            >
+              {activeNavigationLabel}
+            </span>
+          )}
           <button
             aria-controls="primary-navigation"
             aria-expanded={isMenuOpen}
-            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-label={
+              isMenuOpen
+                ? "Close navigation"
+                : activeNavigationLabel
+                  ? `Open navigation, current section: ${activeNavigationLabel}`
+                  : "Open navigation"
+            }
             className="grid size-10 place-items-center rounded-full border border-line text-ink transition-colors hover:bg-surface-muted sm:hidden"
             onClick={() => setIsMenuOpen((open) => !open)}
             ref={menuButtonRef}
@@ -95,16 +195,42 @@ function SiteHeader() {
           className={`${isMenuOpen ? "flex" : "hidden"} order-3 w-full flex-col gap-1 border-t border-line pt-3 sm:order-2 sm:ml-auto sm:flex sm:w-auto sm:flex-row sm:items-center sm:gap-8 sm:border-0 sm:pt-0`}
           id="primary-navigation"
         >
-          {navigationLinks.map((link) => (
-            <a
-              className="rounded px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink sm:px-0"
-              href={link.href}
-              key={link.href}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navigationLinks.map((link) => {
+            const isActive = activeSection === link.href.slice(1);
+
+            return (
+              <a
+                aria-current={isActive ? "location" : undefined}
+                className={`relative rounded px-3 py-2 text-sm transition-colors duration-200 sm:px-0 ${
+                  isActive
+                    ? "bg-accent-soft font-medium text-ink sm:bg-transparent sm:text-accent"
+                    : "text-ink-muted hover:text-ink"
+                }`}
+                href={link.href}
+                key={link.href}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setActiveSection(link.href.slice(1));
+                }}
+              >
+                <span className="flex items-center gap-2">
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="size-1.5 shrink-0 rounded-full bg-accent sm:hidden"
+                    />
+                  )}
+                  {link.label}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-0 -bottom-1 hidden h-px origin-left bg-accent transition-transform duration-200 sm:block ${
+                    isActive ? "scale-x-100" : "scale-x-0"
+                  }`}
+                />
+              </a>
+            );
+          })}
         </nav>
       </div>
     </header>

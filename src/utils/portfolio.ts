@@ -28,6 +28,8 @@ export type SocialLink = {
 export type HeroContent = {
   role: string
   headline: string
+  headlinePrefix: string
+  animatedPhrases: readonly [string, ...string[]]
   description: string
   primaryAction: {
     label: string
@@ -50,13 +52,21 @@ export type AboutContent = {
   headline: string
   paragraphs: string[]
   groups: AboutGroup[]
+  currentFocus: string[]
 }
 
 export type ContactContent = {
   eyebrow: string
   headline: string
   description: string
+  resumeLink: ProjectLink
   email: string
+  whatsappNumber: string
+}
+
+export type ExperienceHighlight = {
+  outcome: string
+  detail: string
 }
 
 export type ExperienceEntry = {
@@ -64,6 +74,7 @@ export type ExperienceEntry = {
   organization: string
   startDate: `${number}-${number}`
   endDate: `${number}-${number}` | null
+  impactHighlights: readonly [ExperienceHighlight, ...ExperienceHighlight[]]
 }
 
 export const siteName = 'Gurpreet Singh'
@@ -95,9 +106,16 @@ export const socialLinks: SocialLink[] = [
 
 export const heroContent: HeroContent = {
   role: 'Software Development Engineer III',
-  headline: 'I build reliable software for complex problems.',
+  headline:
+    'I build full-stack applications, agentic AI workflows, and reliable systems.',
+  headlinePrefix: 'I build',
+  animatedPhrases: [
+    'full-stack applications.',
+    'agentic AI workflows.',
+    'reliable systems.',
+  ],
   description:
-    'Building scalable, enterprise-grade applications and intuitive digital experiences, with a growing focus on cloud engineering and applied AI.',
+    "At Sabre India, I progressed from Associate Intern in 2023 to SDE III in 2025, building full-stack enterprise software. I'm currently exploring agentic AI and LLM integrations.",
   primaryAction: {
     label: 'Get in touch',
     href: '#contact',
@@ -114,79 +132,36 @@ export const contactContent: ContactContent = {
   headline: 'Good engineering starts with a conversation.',
   description:
     "For exciting engineering opportunities, meaningful collaborations, or discussions about building impactful digital products, I'd be glad to connect.",
+  resumeLink: {
+    label: 'View my resume',
+    href: 'https://drive.google.com/file/d/1Az9gZ5hZuXD8Sj7dIPCddOgRkpE4Ii_l/view?usp=sharing',
+  },
   email: 'dev.gurpreet.codes@gmail.com',
+  whatsappNumber: '+91 8437294774',
 }
 
 export const aboutContent: AboutContent = {
   eyebrow: 'A bit about me',
   headline: 'Building reliable software, from services to interfaces.',
   paragraphs: [
-    "I'm a Software Development Engineer III with experience building and maintaining enterprise-grade software solutions. My work spans full-stack development, focusing on creating scalable applications, reliable systems, and intuitive user experiences.",
-    "I'm passionate about software engineering, solving complex problems, and continuously exploring new technologies to build meaningful digital experiences.",
+    'My recent work has centered on evolving established products: modernizing a Knockout.js/.NET application and moving legacy .NET APIs to Node.js microservices, without disrupting the front end.',
+    'I see modernization as successful only when it improves both sides of a product: a faster, more reliable experience for users and a codebase the team can confidently extend. I work with product, design, and architecture partners to weigh those outcomes before delivery.',
   ],
   groups: [
     {
-      label: 'Languages & markup',
-      items: ['Java', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'SQL'],
+      label: 'Web applications',
+      items: ['React', 'Redux', 'Knockout.js'],
     },
     {
-      label: 'Frontend & mobile',
-      items: [
-        'React.js',
-        'Redux',
-        'Flutter',
-        'Tailwind CSS',
-        'Responsive design',
-        'Accessibility',
-      ],
+      label: 'APIs & services',
+      items: ['Node.js', '.NET APIs', 'GraphQL', 'Microservices'],
     },
     {
-      label: 'Backend & APIs',
-      items: [
-        'Spring Boot',
-        'Node.js',
-        'Express.js',
-        'REST APIs',
-        'GraphQL',
-        'Microservices',
-        'API design',
-      ],
-    },
-    {
-      label: 'Data & services',
-      items: [
-        'MongoDB',
-        'Firebase',
-        'PostgreSQL',
-        'MySQL',
-        'Redis',
-        'Data modeling',
-      ],
-    },
-    {
-      label: 'Tools & workflow',
-      items: [
-        'Git',
-        'GitHub',
-        'Postman',
-        'Figma',
-        'Docker',
-        'CI/CD',
-        'Agile / Scrum Methodologies',
-      ],
-    },
-    {
-      label: 'Current interests',
-      items: [
-        'Cloud engineering',
-        'AWS',
-        'System design',
-        'AI',
-        'Agentic AI',
-        'LLM integrations',
-      ],
+      label: 'Mobile applications',
+      items: ['Flutter', 'Firebase', 'Realtime Database', 'Authentication'],
     },
   ],
+  currentFocus: ['AWS', 'Agentic AI', 'LLM integrations'],
 }
 
 export const experienceEntries: ExperienceEntry[] = [
@@ -195,24 +170,82 @@ export const experienceEntries: ExperienceEntry[] = [
     organization: 'Sabre India',
     startDate: '2025-07',
     endDate: null,
+    impactHighlights: [
+      {
+        outcome: 'Contributed to 10+ strategic features',
+        detail:
+          'Shaped roadmap and technical feasibility with product, design, and architecture partners.',
+      },
+      {
+        outcome: '25% fewer post-release defects',
+        detail: 'Led code review and modernization work.',
+      },
+      {
+        outcome: '15% higher team velocity',
+        detail: 'Improved delivery through code review and modernization.',
+      },
+      {
+        outcome: '35% better maintainability and developer efficiency',
+        detail: 'Improved codebase health through modernization.',
+      },
+    ],
   },
   {
     title: 'SDE I',
     organization: 'Sabre India',
     startDate: '2023-07',
     endDate: '2025-06',
+    impactHighlights: [
+      {
+        outcome: '40% improvement in frontend performance',
+        detail:
+          'Modernized a Knockout.js/.NET application with React, Redux, Node.js, and GraphQL.',
+      },
+      {
+        outcome: '10+ features',
+        detail: 'Led architecture and estimates.',
+      },
+      {
+        outcome: '50% faster intern onboarding',
+        detail: 'Mentored two interns.',
+      },
+    ],
   },
   {
     title: 'Associate Intern',
     organization: 'Sabre India',
     startDate: '2023-01',
     endDate: '2023-06',
+    impactHighlights: [
+      {
+        outcome: 'Migrated 10+ legacy .NET APIs',
+        detail: 'Moved them to Node.js microservices without frontend disruption.',
+      },
+      {
+        outcome: '35% lower average server response time',
+        detail: 'Improved performance and reliability.',
+      },
+      {
+        outcome: 'Contributed 3+ hackathon ideas',
+        detail: 'Collaborated across teams to prototype and present solutions.',
+      },
+    ],
   },
   {
     title: 'Mobile App Development Intern',
     organization: 'Skyline Meridian',
     startDate: '2021-06',
     endDate: '2021-08',
+    impactHighlights: [
+      {
+        outcome: 'Shipped a Flutter/Firebase quiz app in six weeks',
+        detail: 'Built cross-platform with real-time data and authentication.',
+      },
+      {
+        outcome: 'Owned delivery end to end',
+        detail: 'Led the project from UI/UX through deployment.',
+      },
+    ],
   },
 ]
 

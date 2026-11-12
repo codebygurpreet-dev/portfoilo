@@ -52,6 +52,14 @@ function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
               {entry.title}
             </h3>
             <p className="mt-1 text-sm text-ink-muted">{entry.organization}</p>
+            <ul className="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-ink-muted marker:text-accent">
+              {entry.impactHighlights.map(({ outcome, detail }) => (
+                <li key={outcome}>
+                  <strong className="font-semibold text-ink">{outcome}.</strong>{' '}
+                  {detail}
+                </li>
+              ))}
+            </ul>
           </div>
         </li>
       ))}

@@ -61,10 +61,33 @@ function AboutSection() {
             ))}
           </div>
         </div>
-        <div className="about-content-enter-delayed grid gap-4 sm:grid-cols-2 lg:col-span-2 xl:grid-cols-3">
-          {aboutContent.groups.map((group) => (
-            <SkillGroup group={group} key={group.label} />
-          ))}
+        <div className="about-content-enter-delayed lg:col-span-2">
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">
+            Used in delivered work
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {aboutContent.groups.map((group) => (
+              <SkillGroup group={group} key={group.label} />
+            ))}
+          </div>
+        </div>
+        <div className="about-content-enter-delayed flex flex-col gap-3 lg:col-span-2 sm:flex-row sm:items-center">
+          <h3 className="shrink-0 font-mono text-[11px] font-medium tracking-[0.12em] text-ink-muted uppercase">
+            Currently exploring
+          </h3>
+          <ul
+            aria-label="Current areas of exploration"
+            className="flex flex-wrap gap-2"
+          >
+            {aboutContent.currentFocus.map((item) => (
+              <li
+                className="rounded-full border border-line px-3 py-1.5 text-xs leading-5 text-ink-muted sm:text-sm"
+                key={item}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { heroContent } from '../utils/portfolio'
+import TypewriterHeadline from './TypewriterHeadline'
 
 function HeroSection() {
   return (
@@ -13,13 +14,13 @@ function HeroSection() {
           <span aria-hidden="true" className="size-2 rounded-full bg-accent" />
           {heroContent.role}
         </p>
-        <h1
-          className="max-w-4xl font-display text-[clamp(3rem,7.5vw,5.25rem)] leading-[0.99] font-medium tracking-[-0.045em] text-ink"
-          id="intro-title"
-        >
-          {heroContent.headline}
-        </h1>
-        <p className="mt-7 max-w-2xl text-base leading-7 text-ink-muted sm:mt-8 sm:text-lg sm:leading-8">
+        <TypewriterHeadline
+          headingId="intro-title"
+          phrases={heroContent.animatedPhrases}
+          prefix={heroContent.headlinePrefix}
+          staticHeadline={heroContent.headline}
+        />
+        <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted sm:mt-5 sm:text-lg sm:leading-8">
           {heroContent.description}
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-10">
