@@ -72,6 +72,7 @@ export type ExperienceHighlight = {
 export type ExperienceEntry = {
   title: string
   organization: string
+  location: string
   startDate: `${number}-${number}`
   endDate: `${number}-${number}` | null
   impactHighlights: readonly [ExperienceHighlight, ...ExperienceHighlight[]]
@@ -107,15 +108,16 @@ export const socialLinks: SocialLink[] = [
 export const heroContent: HeroContent = {
   role: 'Software Development Engineer III',
   headline:
-    'I build full-stack applications, agentic AI workflows, and reliable systems.',
+    'I build full-stack applications, agentic AI workflows, reliable systems, and scalable architectures.',
   headlinePrefix: 'I build',
   animatedPhrases: [
     'full-stack applications.',
     'agentic AI workflows.',
     'reliable systems.',
+    'scalable architectures.',
   ],
   description:
-    "At Sabre India, I progressed from Associate Intern in 2023 to SDE III in 2025, building full-stack enterprise software. I'm currently exploring agentic AI and LLM integrations.",
+    "At Sabre, I progressed from Associate Intern in 2023 to SDE III in 2025, building full-stack enterprise software. I'm currently exploring agentic AI and LLM integrations.",
   primaryAction: {
     label: 'Get in touch',
     href: '#contact',
@@ -167,7 +169,8 @@ export const aboutContent: AboutContent = {
 export const experienceEntries: ExperienceEntry[] = [
   {
     title: 'SDE III',
-    organization: 'Sabre India',
+    organization: 'Sabre',
+    location: 'Remote',
     startDate: '2025-07',
     endDate: null,
     impactHighlights: [
@@ -192,7 +195,8 @@ export const experienceEntries: ExperienceEntry[] = [
   },
   {
     title: 'SDE I',
-    organization: 'Sabre India',
+    organization: 'Sabre',
+    location: 'Bengaluru, India',
     startDate: '2023-07',
     endDate: '2025-06',
     impactHighlights: [
@@ -213,7 +217,8 @@ export const experienceEntries: ExperienceEntry[] = [
   },
   {
     title: 'Associate Intern',
-    organization: 'Sabre India',
+    organization: 'Sabre',
+    location: 'Bengaluru, India',
     startDate: '2023-01',
     endDate: '2023-06',
     impactHighlights: [
@@ -234,6 +239,7 @@ export const experienceEntries: ExperienceEntry[] = [
   {
     title: 'Mobile App Development Intern',
     organization: 'Skyline Meridian',
+    location: 'Remote',
     startDate: '2021-06',
     endDate: '2021-08',
     impactHighlights: [
@@ -252,57 +258,55 @@ export const experienceEntries: ExperienceEntry[] = [
 export const projects: Project[] = [
   {
     number: '01',
-    title: 'Project One',
+    title: 'Real-Time Messaging App',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['React', 'TypeScript'],
-    liveLink: null,
-    githubLink: null,
+      'A cross-platform Flutter messaging app where users can create accounts, find contacts, and exchange messages in real time through Firebase and Cloud Firestore, with support for emoji in conversations.',
+    technologies: [
+      'Flutter',
+      'Dart',
+      'Firebase Authentication',
+      'Cloud Firestore',
+    ],
+    liveLink: {
+      label: 'View live demo',
+      href: 'https://github.com/codebygurpreet-dev/Chatting-App',
+    },
+    githubLink: {
+      label: 'View on github',
+      href: 'https://github.com/codebygurpreet-dev/Chatting-App',
+    },
   },
   {
     number: '02',
-    title: 'Project Two',
+    title: 'Health & Fitness Planner',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['Java', 'Spring Boot'],
-    liveLink: null,
-    githubLink: null,
+      'A Flutter fitness companion with Firestore-powered workout and diet plans. Users can filter available plans and explore dedicated detail screens for routines and meal guidance.',
+    technologies: ['Flutter', 'Dart', 'Cloud Firestore'],
+    liveLink: {
+      label: 'View live demo',
+      href: 'https://github.com/codebygurpreet-dev/Health-And-Fitness-App',
+    },
+    githubLink: {
+      label: 'View on github',
+      href: 'https://github.com/codebygurpreet-dev/Health-And-Fitness-App',
+    },
   },
   {
     number: '03',
-    title: 'Project Three',
+    title: 'Voice-Activated Personal Assistant',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['Node.js', 'Express.js'],
-    liveLink: null,
-    githubLink: null,
-  },
-  {
-    number: '04',
-    title: 'Project Four',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['Flutter', 'Firebase'],
-    liveLink: null,
-    githubLink: null,
-  },
-  {
-    number: '05',
-    title: 'Project Five',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['GraphQL', 'MongoDB'],
-    liveLink: null,
-    githubLink: null,
-  },
-  {
-    number: '06',
-    title: 'Project Six',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
-    technologies: ['AI', 'TypeScript'],
-    liveLink: null,
-    githubLink: null,
+      'A Python voice assistant that handles spoken commands with speech recognition and spoken responses. It can provide time and information lookups, tell jokes, play music on YouTube, and track frequently requested songs for recommendations.',
+    technologies: [
+      'Python',
+      'Speech Recognition'
+    ],
+    liveLink: {
+      label: 'View live demo',
+      href: 'https://github.com/codebygurpreet-dev/Python_AI_project',
+    },
+    githubLink: {
+      label: 'View on github',
+      href: 'https://github.com/codebygurpreet-dev/Python_AI_project',
+    },
   },
 ]
-

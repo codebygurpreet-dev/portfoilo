@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { experienceEntries } from '../utils/portfolio'
 import ExperienceTimeline from './ExperienceTimeline'
 
@@ -24,6 +25,38 @@ function calculateExperienceYears(asOfDate: Date) {
 const totalExperienceYears = calculateExperienceYears(new Date())
 
 function ExperienceSection() {
+  const calculationRef = useRef<HTMLDetailsElement>(null)
+
+  useEffect(() => {
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      const details = calculationRef.current
+
+      if (
+        details?.open &&
+        event.target instanceof Node &&
+        !details.contains(event.target)
+      ) {
+        details.open = false
+      }
+    }
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      const details = calculationRef.current
+
+      if (event.key === 'Escape' && details?.open) {
+        details.open = false
+      }
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer)
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [])
+
   return (
     <section
       aria-labelledby="experience-title"
@@ -50,6 +83,7 @@ function ExperienceSection() {
                 {totalExperienceYears}+ years
               </p>
               <details
+                ref={calculationRef}
                 className="group"
                 onPointerEnter={(event) => {
                   if (event.pointerType === 'mouse') {

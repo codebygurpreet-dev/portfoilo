@@ -126,7 +126,7 @@ function TypewriterHeadline({
         <span className="sr-only">{staticHeadline}</span>
         <span aria-hidden="true">
           {prefix}
-          <span className="block min-h-[1.98em] text-accent sm:min-h-[0.99em]">
+          <span className="block min-h-[0.99em] text-accent">
             <span>
               {displayedText}
               <span
